@@ -42,8 +42,10 @@ async def chat(request: Request):
 game_data = []
 
 
-@router.websocket("/game/{client}")
-async def websocket_endpoint(websocket: WebSocket, client: str):
+# @router.websocket("/game/{client}")
+# async def websocket_endpoint(websocket: WebSocket, client: str):
+@router.websocket("/game")
+async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
@@ -55,4 +57,5 @@ async def websocket_endpoint(websocket: WebSocket, client: str):
 
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast({"disconnect": client})
+        # await manager.broadcast({"disconnect": client})
+        await manager.broadcast({"disconnect": 'client'})

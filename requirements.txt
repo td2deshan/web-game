@@ -1,4 +1,6 @@
-fastapi[all]
-http3
-beautifulsoup4
-Jinja2
+aiofiles==0.5.0
+fastapi==0.63.0
+uvicorn==0.13.3
+http3==0.6.7
+beautifulsoup4==4.9.3
+Jinja2==2.11.2

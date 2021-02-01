@@ -16,8 +16,15 @@
 
 <script>
 
+                // Support TLS-specific URLs, when appropriate.
+                if (window.location.protocol == "https:") {
+                  var ws_scheme = "wss://";
+                } else {
+                  var ws_scheme = "ws://"
+                };
+
 <!--             const ws = new WebSocket("ws://localhost:8000/game/" + window.name);-->
-             const ws = new WebSocket("wss://soc-game.herokuapp.com/game");
+             const ws = new WebSocket(ws_scheme + location.host + "/game");
 
              const c = document.getElementById("canvas");
              const ctx = c.getContext('2d');

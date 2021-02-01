@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Login</title>
+</head>
+<body>
+        <form>
+            Enter User Name <input id="userName" type="text">
+            <button onclick="saveName()">Start Game</button>
+        </form>
+
+    <script>
+
+        function saveName() {
+<!--            var userName = document.getElementById('userName').value;-->
+<!--            window.name = userName;-->
+
+            location.assign("http://127.0.0.1:8000/game");
+<!--            location.reload();-->
+        }
+    </script>
+</body>
+</html>

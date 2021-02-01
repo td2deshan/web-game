@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game</title>
+    <link href="{{ url_for('static', path='/mainstyle.css') }}" rel="stylesheet">
+</head>
+<body>
+<h1>WebSocket Game</h1>
+
+
+<canvas id="canvas" width="800" height="400" style="background: black;"
+        onclick="sendMessage(event)">
+
+</canvas>
+
+
+<script>
+
+             const ws = new WebSocket("ws://localhost:8000/game/" + window.name);
+
+             const c = document.getElementById("canvas");
+             const ctx = c.getContext('2d');
+             const rect = c.getBoundingClientRect()
+
+
+              // handle server response
+              ws.onmessage = function(event) {
+                response = JSON.parse(event.data);
+
+                try{
+                        switch(Object.keys(response)[0]) {
+                            case 'game_data':
+                                draw(response['game_data']);
+                                break;
+
+                            case 'my':
+<!--                                console.log(response['my']);-->
+                                break;
+
+                            case 'disconnect':
+                                console.log(response['disconnect']);
+                                break;
+
+                            default:
+                                console.log(response);
+                        }
+                    }
+                    catch(e){
+                        response = JSON.parse(event.data);
+                    }
+            }
+
+
+
+
+
+            // draw every circles in given arr
+            function draw(arr) {
+                arr.forEach( d=> {
+                         drawCircle(d['x'], d['y']);
+                 });
+            }
+
+
+
+            // send mouse pointer x, y into server
+            function sendMessage(event) {
+
+                let req = {
+                    'x': event.clientX - rect.left,
+                    'y': event.clientY - rect.top,
+                };
+
+               ws.send(JSON.stringify(req));
+            }
+
+            // draw single circle in given x & y
+            function drawCircle(x, y) {
+                ctx.beginPath();
+
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                ctx.fillStyle = "orange";
+                ctx.strokeStyle = "orange";
+
+                ctx.fill();
+                ctx.stroke();
+
+            }
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

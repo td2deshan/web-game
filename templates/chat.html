@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link href="{{ url_for('static', path='/mainstyle.css') }}" rel="stylesheet">
+</head>
+<body>
+<h1>WebSocket Chat</h1>
+<form action="" onsubmit="sendMessage(event)">
+    <input type="text" id="messageText" autocomplete="off"/>
+    <button>Send</button>
+</form>
+<ul id='messages'>
+</ul>
+
+<div class="content-container">
+    <div id="ebay" class="content">ebay</div>
+    <div id="aliexpress" class="content">aliexpress</div>
+    <div id="amazon" class="content">amazon</div>
+</div>
+
+<script>
+
+            const ws = new WebSocket("ws://localhost:8000/ws"); // init ws
+
+            // init content elements
+            const ebay = document.getElementById("ebay");
+            const aliexpress = document.getElementById("aliexpress");
+            const amazon = document.getElementById("amazon");
+
+            var response;
+
+            ws.onmessage = function(event) {
+
+                    response = JSON.parse(event.data);
+                    switch(Object.keys(response)[0]) {
+                        case "ebay":
+                            ebay.innerHTML = response['ebay'];
+                            break;
+                         case "aliexpress":
+                            aliexpress.innerHTML = response['aliexpress'];
+                            break;
+                          case "amazon":
+                            amazon.innerHTML = response['amazon'];
+                            break;
+                    }
+
+<!--                let messages = document.getElementById('messages')-->
+<!--                let message = document.createElement('li')-->
+<!--                let content = document.createTextNode(event.data)-->
+<!--                message.appendChild(content)-->
+<!--                messages.appendChild(message)-->
+            };
+
+
+            function sendMessage(event) {
+                let input = document.getElementById("messageText")
+
+                let req = {
+                'data': input.value,
+                'date': new Date(),
+                'date1': new Date().toString(),
+                };
+
+                ws.send(JSON.stringify(req));
+                input.value = ''
+                event.preventDefault()
+            }
+
+</script>
+</body>
+</html>

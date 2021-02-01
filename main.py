@@ -24,12 +24,12 @@ async def root(request: Request):
 
 
 def configure():
-    app.include_router(mainApi.router)
+    # app.include_router(mainApi.router)
     app.include_router(gameApi.router)
 
 
 configure()
 
-
-if __name__ == '__main__':
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+#
+# if __name__ == '__main__':
+#     uvicorn.run(app, host="127.0.0.1", port=8000)

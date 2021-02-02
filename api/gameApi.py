@@ -39,7 +39,7 @@ async def chat(request: Request):
     return templates.TemplateResponse('game/game.html', context={'request': request})
 
 
-game_data = []
+game_data = [] # store game data
 
 
 # @router.websocket("/game/{client}")
@@ -47,13 +47,18 @@ game_data = []
 @router.websocket("/game")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
+
     try:
+
+        await manager.send_personal_message({'all_data': game_data}, websocket) # send init game data to new user
+
         while True:
             data = await websocket.receive_json()
             game_data.append(data)
+
             await manager.send_personal_message({'my': data}, websocket)
 
-            await manager.broadcast({'game_data': game_data})
+            await manager.broadcast({'game_data': data})
 
     except WebSocketDisconnect:
         manager.disconnect(websocket)

@@ -36,6 +36,10 @@
                 response = JSON.parse(event.data);
                 try{
                         switch(Object.keys(response)[0]) {
+                            case 'all_data':
+                                draw_all(response['all_data'])
+                                break;
+
                             case 'game_data':
                                 console.log(response['game_data']);
                                 draw(response['game_data']);
@@ -63,8 +67,14 @@
 
 
             // draw every circles in given arr
-            function draw(arr) {
-                arr.forEach( d=> {
+            function draw(data) {
+                 drawCircle(data['x'], data['y']);
+
+            }
+
+            // draw arr of objects of x,y
+            function draw_all(arr) {
+            arr.forEach( d=> {
                          drawCircle(d['x'], d['y']);
                  });
             }

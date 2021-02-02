@@ -34,10 +34,11 @@
               // handle server response
               ws.onmessage = function(event) {
                 response = JSON.parse(event.data);
-
+                console.log(response)[0]);
                 try{
                         switch(Object.keys(response)[0]) {
                             case 'game_data':
+
                                 draw(response['game_data']);
                                 break;
 

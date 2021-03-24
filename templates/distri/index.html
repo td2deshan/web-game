@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distributed Computing</title>
+    <link href="{{ url_for('static', path='/mainStyle.css') }}" rel="stylesheet">
+</head>
+<body>
+<h1>Distributed Computing</h1>
+
+
+<script>
+
+                // Support TLS-specific URLs, when appropriate.
+                if (window.location.protocol == "https:") {
+                  var ws_scheme = "wss://";
+                } else {
+                  var ws_scheme = "ws://"
+                };
+
+           // const ws = new WebSocket("ws://localhost:8000/game/" + window.name)
+            const ws = new WebSocket(ws_scheme + location.host + "/ws-dis");
+
+
+              ws.onmessage = function(event) {
+                response = JSON.parse(event.data);
+                console.log(response);
+            }
+
+            function sendMessage() {
+
+                let payload = {
+
+                };
+
+               ws.send(JSON.stringify(payload));
+            }
+
+
+
+
+            //---------------------------------------------
+
+                function cal(x) {
+
+                }
+
+
+
+
+
+</script>
+</body>
+</html>

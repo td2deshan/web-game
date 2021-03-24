@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from api import mainApi, gameApi
+from api import mainApi, gameApi, webrtcApi, distributedCOmputing
 
 app = FastAPI()
 
@@ -26,10 +26,12 @@ async def root(request: Request):
 def configure():
     # app.include_router(mainApi.router)
     app.include_router(gameApi.router)
+    app.include_router(webrtcApi.router)
+    app.include_router(distributedCOmputing.router)
 
 
 configure()
 
-#
-# if __name__ == '__main__':
-#     uvicorn.run(app, host="127.0.0.1", port=5000)
+
+if __name__ == '__main__':
+    uvicorn.run(app, host="127.0.0.1", port=8000)

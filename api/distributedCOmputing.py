@@ -29,36 +29,36 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-@router.get('/game-login')
-async def game_login(request: Request):
-    return templates.TemplateResponse('game/gameLogin.html', context={'request': request})
 
-
-@router.get("/game")
+@router.get("/dis")
 async def chat(request: Request):
-    return templates.TemplateResponse('game/game.html', context={'request': request})
+    return templates.TemplateResponse('distri/index.html', context={'request': request})
 
 
-game_data = []  # store game data
+game_data = [i for i in range(100)]  # store game data
 
+portion = 0
 
-# @router.websocket("/game/{client}")
-# async def websocket_endpoint(websocket: WebSocket, client: str):
-@router.websocket("/game")
+@router.websocket("/ws-dis")
 async def websocket_endpoint(websocket: WebSocket):
+
+    global portion
+
     await manager.connect(websocket)
+
+    portion += 10
 
     try:
 
-        await manager.send_personal_message({'all_data': game_data}, websocket)  # send init game data to new user
+        await manager.send_personal_message({'init_data': game_data[portion - 10: portion]}, websocket)  # send init game data to new user
 
         while True:
-            data = await websocket.receive_json()
-            game_data.append(data)
+            data = await websocket.receive_json() # receive data from client
+            print(data)
 
-            await manager.send_personal_message({'my': data}, websocket)
+            await manager.send_personal_message({'personal_data': data}, websocket)
 
-            await manager.broadcast({'game_data': data})
+            await manager.broadcast({'broadcast_data': data})
 
     except WebSocketDisconnect:
         manager.disconnect(websocket)

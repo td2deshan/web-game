@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>web rtc</title>
+</head>
+<body>
+<ht>web rtc</ht>
+
+<script>
+
+        if (window.location.protocol == "https:") {
+                  var ws_scheme = "wss://";
+                } else {
+                  var ws_scheme = "ws://"
+         };
+
+         const ws = new WebSocket(ws_scheme + location.host + "/webrtc");
+
+        ws.onmessage = function(event) {
+            response = JSON.parse(event.data);
+        }
+
+        function sendMessage(event) {
+
+                let req = {
+                    'data': 'data'
+                };
+
+               ws.send(JSON.stringify(req));
+            }
+
+
+        function createPeer(userId) {
+            const peer = new RTCPeerConnection({
+                iceServers: [
+                    {
+                        urls: ''
+                    },
+                    {
+                        urls: '',
+                        credential: '',
+                        username: ''
+                    },
+                ]
+            });
+
+            peer.onicecandidate = handleICECandidateEvent;
+            peer.ontrack = handleTrackEvent;
+
+            peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userId;
+
+            return peer;
+        }
+
+        function handleNegotiationNeededEvent(userId) {
+
+        }
+</script>
+</body>
+</html>
